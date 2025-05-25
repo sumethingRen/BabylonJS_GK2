@@ -1,4 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
+    // Ensure the CANNON object is available for the Babylon CannonJS plugin
+    window.CANNON = CANNON;
+
     var canvas = document.getElementById('renderCanvas');
     var engine = new BABYLON.Engine(canvas, true);
 
@@ -6,12 +9,12 @@ window.addEventListener('DOMContentLoaded', function () {
         var scene = new BABYLON.Scene(engine);
         scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
 
-        // Kamera
+        // Camera
         var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -15), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
-        // Pencahayaan
+        // Lighting
         var light = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
         light.position = new BABYLON.Vector3(5, 10, 5);
         light.intensity = 0.7;
@@ -20,10 +23,10 @@ window.addEventListener('DOMContentLoaded', function () {
         shadowGenerator.useBlurExponentialShadowMap = true;
         shadowGenerator.blurKernel = 32;
 
-        // Transform node chair
+        // Transform node for the chair
         var chair = new BABYLON.TransformNode("chair", scene);
 
-        // Kursi bagian-bagian
+        // Chair components
         var seat = BABYLON.MeshBuilder.CreateBox("seat", { width: 2, height: 0.3, depth: 2 }, scene);
         seat.position.y = 1.5;
         seat.parent = chair;
@@ -68,7 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
             scene
         );
 
-        // Gunakan 1 mesh gabungan dari semua bagian kursi untuk fisika
+        // Merge all chair parts into one mesh for physics
         var parts = [seat, backrest, leg1, leg2, leg3, leg4];
         var chairMesh = BABYLON.Mesh.MergeMeshes(parts, true, true, undefined, false, true);
         chairMesh.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -78,7 +81,7 @@ window.addEventListener('DOMContentLoaded', function () {
             scene
         );
 
-        // Fungsi lompat
+        // Jump function
         function jump(mesh) {
             const velocity = mesh.physicsImpostor.getLinearVelocity();
             if (Math.abs(velocity.y) < 0.1) {
@@ -86,7 +89,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Event tombol keyboard
+        // Keyboard controls
         window.addEventListener("keydown", function (evt) {
             const impulse = 3;
             const pos = chairMesh.getAbsolutePosition();
