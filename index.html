@@ -117,10 +117,10 @@
 
         switch (evt.key.toLowerCase()) {
           case "w":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, -impulse), pos);
+            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, impulse), pos);
             break;
           case "s":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, impulse), pos);
+            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, -impulse), pos);
             break;
           case "a":
             chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(-impulse, 0, 0), pos);
