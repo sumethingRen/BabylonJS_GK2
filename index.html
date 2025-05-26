@@ -107,7 +107,7 @@
       function jump(mesh) {
         const velocity = mesh.physicsImpostor.getLinearVelocity();
         if (Math.abs(velocity.y) < 0.1) {
-          mesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 5, 0), mesh.getAbsolutePosition());
+          mesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 10, 0), mesh.getAbsolutePosition());
         }
       }
 
