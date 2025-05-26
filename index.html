@@ -111,6 +111,24 @@
         }
       }
 
+      function resetChair(mesh, position = new BABYLON.Vector3(0, 2, 0)) {
+  // Temporarily disable physics
+  mesh.physicsImpostor.sleep(); // optional: pause physics to avoid bounce
+
+  // Reset position
+  mesh.position.copyFrom(position);
+
+  // Reset rotation
+  mesh.rotationQuaternion = BABYLON.Quaternion.Identity();
+
+  // Reset physics velocities
+  mesh.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+  mesh.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+
+  // Wake up physics engine
+  mesh.physicsImpostor.wakeUp();
+}
+
       window.addEventListener("keydown", function (evt) {
   const speed = 3; // speed value
   const velocity = chairMesh.physicsImpostor.getLinearVelocity().clone();
@@ -131,6 +149,9 @@
     case " ":
       jump(chairMesh);
       return; // don't set velocity if jumping
+    case "r":
+      resetChair(chairMesh);
+      return;
   }
 
   chairMesh.physicsImpostor.setLinearVelocity(velocity);
