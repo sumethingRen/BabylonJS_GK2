@@ -112,26 +112,28 @@
       }
 
       window.addEventListener("keydown", function (evt) {
-        const impulse = 3;
-        const pos = chairMesh.getAbsolutePosition();
+  const speed = 3; // speed value
+  const velocity = chairMesh.physicsImpostor.getLinearVelocity().clone();
 
-        switch (evt.key.toLowerCase()) {
-          case "w":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, impulse), pos);
-            break;
-          case "s":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, 0, -impulse), pos);
-            break;
-          case "a":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(-impulse, 0, 0), pos);
-            break;
-          case "d":
-            chairMesh.physicsImpostor.applyImpulse(new BABYLON.Vector3(impulse, 0, 0), pos);
-            break;
-          case " ":
-            jump(chairMesh);
-            break;
-        }
+  switch (evt.key.toLowerCase()) {
+    case "w":
+      velocity.z = speed;
+      break;
+    case "s":
+      velocity.z = -speed;
+      break;
+    case "a":
+      velocity.x = -speed;
+      break;
+    case "d":
+      velocity.x = speed;
+      break;
+    case " ":
+      jump(chairMesh);
+      return; // don't set velocity if jumping
+  }
+
+  chairMesh.physicsImpostor.setLinearVelocity(velocity);
       });
 
       return scene;
